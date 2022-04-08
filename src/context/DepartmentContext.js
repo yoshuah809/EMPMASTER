@@ -8,7 +8,7 @@ export const DepartmentProvider = props => {
   const [deptData, setDeptData] = useState([]);
 
   const fetchDepartmentData = () => {
-    axios.get(variables.API_URL).then(response => {
+    axios.get(variables.API_URL + /departments/).then(response => {
       try {
         if (response.data) {
           setDeptData(response.data);

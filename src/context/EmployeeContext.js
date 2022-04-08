@@ -8,7 +8,7 @@ export const EmployeeProvider = props => {
   const [empData, setData] = useState([]);
 
   const fetchEmployeeData = () => {
-    axios.get(variables.API_URL).then(response => {
+    axios.get(variables.API_URL + /employees/).then(response => {
       try {
         if (response.data) {
           setData(response.data);

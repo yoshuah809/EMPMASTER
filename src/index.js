@@ -5,11 +5,14 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import "./bootstrap-min.css";
 import { EmployeeProvider } from "./context/EmployeeContext";
+import { DepartmentProvider } from "./context/DepartmentContext";
 
 ReactDOM.render(
   <React.StrictMode>
     <EmployeeProvider>
-      <App />
+      <DepartmentProvider>
+        <App />
+      </DepartmentProvider>
     </EmployeeProvider>
   </React.StrictMode>,
   document.getElementById("root")
