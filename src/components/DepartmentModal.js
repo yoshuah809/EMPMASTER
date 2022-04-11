@@ -1,24 +1,14 @@
-import { useState } from "react";
-import {
-  Button,
-  Form,
-  Modal,
-  ModalBody,
-  ModalFooter,
-  ModalHeader,
-} from "react-bootstrap";
+import { useContext, useState } from "react";
+import { Modal, ModalBody, ModalFooter, ModalHeader } from "react-bootstrap";
+import { DepartmentContext } from "../context/DepartmentContext";
 
 const DepartmentModal = ({
-  modalTitle,
   selectedDepartment,
   setSelectedDepartment,
   isOpen,
   openCloseDepartmentModal,
 }) => {
-  const [newDepartment, setNewDepartment] = useState({
-    dept_id: selectedDepartment.dept_id,
-    dep_name: selectedDepartment.dep_name,
-  });
+  const { updateDepartment, addDepartment } = useContext(DepartmentContext);
 
   const handleChange = e => {
     setSelectedDepartment({
@@ -26,7 +16,14 @@ const DepartmentModal = ({
       [e.target.id]: e.target.value,
     });
   };
-  const onSubmit = () => {};
+  const handleSubmit = () => {
+    try {
+      updateDepartment(selectedDepartment);
+      openCloseDepartmentModal();
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   return (
     <Modal show={isOpen}>
@@ -38,7 +35,9 @@ const DepartmentModal = ({
           </button>
         }
       >
-        <h4 style={{ color: "black" }}>Edit Department Details</h4>
+        <h4 style={{ color: "black" }}>
+          {selectedDepartment.dept_id ? "Edit Department" : "Create Department"}
+        </h4>
       </ModalHeader>
       <ModalBody>
         <label for="dept_id">
@@ -67,11 +66,11 @@ const DepartmentModal = ({
       </ModalBody>
       <ModalFooter>
         <button
-          type="submit"
+          type="button"
           className="btn btn-outline-success"
-          //   onClick={e => onAcceptProductClickHandler(e)}
+          onClick={e => handleSubmit()}
         >
-          Accept
+          {selectedDepartment.dept_id ? "Save" : "Create"}
         </button>{" "}
         <button
           className="btn btn-outline-primary"
