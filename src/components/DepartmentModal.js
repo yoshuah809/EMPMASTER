@@ -16,10 +16,27 @@ const DepartmentModal = ({
       [e.target.id]: e.target.value,
     });
   };
+  const clearForm = () => {
+    setSelectedDepartment({
+      dept_id: "",
+      dep_name: "",
+    });
+  };
   const handleSubmit = () => {
     try {
       updateDepartment(selectedDepartment);
       openCloseDepartmentModal();
+      clearForm();
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const handleAdd = () => {
+    try {
+      addDepartment(selectedDepartment);
+      openCloseDepartmentModal();
+      clearForm();
     } catch (error) {
       console.log(error.message);
     }
@@ -68,7 +85,7 @@ const DepartmentModal = ({
         <button
           type="button"
           className="btn btn-outline-success"
-          onClick={e => handleSubmit()}
+          onClick={selectedDepartment.dept_id ? handleSubmit : handleAdd}
         >
           {selectedDepartment.dept_id ? "Save" : "Create"}
         </button>{" "}

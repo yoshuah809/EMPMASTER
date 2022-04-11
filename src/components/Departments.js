@@ -1,8 +1,24 @@
 import React, { useContext, useState, useEffect } from "react";
 import { DepartmentContext } from "../context/DepartmentContext";
+import DepartmentModal from "./DepartmentModal";
 
 const Departments = () => {
   const { deptData } = useContext(DepartmentContext);
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedDepartment, setSelectedDepartment] = useState({
+    dept_id: "",
+    dep_name: "",
+    operation: "",
+  });
+
+  const selectDepartment = (department, operation) => {
+    setSelectedDepartment(department, operation);
+    openCloseDepartmentModal();
+  };
+
+  const openCloseDepartmentModal = () => {
+    setIsOpen(!isOpen);
+  };
 
   return (
     <div className="App mt-3 py-3">
@@ -11,7 +27,7 @@ const Departments = () => {
         <br />
         <button
           className="btn btn-outline-success"
-          // onClick={() => openCloseInsertModal()}
+          onClick={() => openCloseDepartmentModal()}
         >
           <i className="fas fa-plus"></i>
         </button>
@@ -26,15 +42,15 @@ const Departments = () => {
           </thead>
           <tbody>
             {deptData.length !== 0 &&
-              deptData.map(d => (
-                <tr key={d.dept_id}>
-                  <td>{d.dept_id}</td>
-                  <td>{d.dep_name}</td>
+              deptData.map(department => (
+                <tr key={department.dept_id}>
+                  <td>{department.dept_id}</td>
+                  <td>{department.dep_name}</td>
 
                   <td>
                     <button
                       className="btn btn-outline-success"
-                      //onClick={() => selectProduct(product, "Update")}
+                      onClick={() => selectDepartment(department, "Update")}
                     >
                       <i className="fas fa-edit"></i>
                     </button>{" "}
@@ -50,6 +66,12 @@ const Departments = () => {
               ))}
           </tbody>
         </table>
+        <DepartmentModal
+          openCloseDepartmentModal={openCloseDepartmentModal}
+          isOpen={isOpen}
+          selectedDepartment={selectedDepartment}
+          setSelectedDepartment={setSelectedDepartment}
+        />
       </div>
     </div>
   );
